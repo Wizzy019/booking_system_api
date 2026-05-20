@@ -1,0 +1,80 @@
+# 🚀 BOOKING SYSTEM — BUILD ORDER (MVP)
+
+## 🧱 PHASE 1 — BACKEND FOUNDATION
+- Setup FastAPI project
+- Setup PostgreSQL connection
+- Create database tables:
+  - users
+  - availability
+  - bookings
+
+---
+
+## 🔐 PHASE 2 — AUTH SYSTEM
+- Admin login endpoint
+- Password hashing
+- JWT token generation
+- Protect admin routes
+
+---
+
+## 🔌 PHASE 3 — CORE API LOGIC
+- Availability CRUD:
+  - create availability rules
+  - get availability
+- Booking logic:
+  - create booking
+  - prevent double booking
+  - get bookings (admin)
+
+---
+
+## 🎨 PHASE 4 — FRONTEND SETUP
+- Setup React + TypeScript
+- Setup TailwindCSS
+- Create routing structure
+
+---
+
+## 🔐 PHASE 5 — AUTH UI
+- Login page
+- Store JWT token
+- Protect admin routes
+
+---
+
+## 📅 PHASE 6 — BOOKING UI (USER SIDE)
+- Build /book page
+- Fetch availability
+- Slot selection UI
+- Booking form submission
+
+---
+
+## 🧑‍💼 PHASE 7 — ADMIN DASHBOARD
+- Dashboard overview
+- View all bookings
+- Update booking status
+
+---
+
+## ⏰ PHASE 8 — SCHEDULE MANAGEMENT
+- Create availability rules UI
+- Edit/delete availability
+- View current schedule
+
+---
+
+## 🧪 PHASE 9 — POLISH
+- Loading states
+- Error handling
+- Basic UI cleanup
+- Responsive design
+
+---
+
+## ⚠️ RULES
+- No payments system
+- No extra features
+- Build only what is in MVP scope
+- Backend must work before frontend moves forward
