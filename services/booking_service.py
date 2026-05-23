@@ -15,7 +15,7 @@ def _date_to_day_of_week(booking_date: date) -> int:
 
 
 def _is_slot_available(
-    db: Session, booking_date: date, time_slot: time.replace(tzinfo=None)
+    db: Session, booking_date: date, time_slot: time
 ) -> bool:
     day_of_week = _date_to_day_of_week(booking_date)
     records = (

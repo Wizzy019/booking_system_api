@@ -26,7 +26,6 @@ def create_booking_endpoint(
     data: BookingCreate,
     db: Session = Depends(get_db),
 ):
-    data.time_slot = data.time_slot.replace(tzinfo=None)
     return create_booking(db, data)
 
 
