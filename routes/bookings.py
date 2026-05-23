@@ -26,13 +26,13 @@ def create_booking_endpoint(
     data: BookingCreate,
     db: Session = Depends(get_db),
 ):
+    data.time_slot = data.time_slot.replace(tzinfo=None)
     return create_booking(db, data)
 
 
-@router.get("", response_model=list[BookingResponse])
+@router.get("", response_model=list[BookingResponse], dependencies=[Depends(admin_only)])
 def get_all_bookings_endpoint(
     db: Session = Depends(get_db),
-    _: User = Depends(admin_only),
 ):
     return get_all_bookings(db)
 

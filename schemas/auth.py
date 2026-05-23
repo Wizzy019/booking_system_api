@@ -2,8 +2,10 @@ import uuid
 
 from pydantic import BaseModel, EmailStr
 
+from utils.cleanbasemodel import CleanBaseModel
 
-class AdminRegisterRequest(BaseModel):
+
+class AdminRegisterRequest(CleanBaseModel):
     email: EmailStr
     password: str
 
@@ -14,3 +16,13 @@ class AdminRegisterResponse(BaseModel):
     role: str
 
     model_config = {"from_attributes": True}
+
+
+class AdminLoginRequest(CleanBaseModel):
+    email: EmailStr
+    password: str
+
+
+class AdminLoginResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"

@@ -9,7 +9,7 @@ from core.database import Base
 
 
 class Availability(Base):
-    __tablename__ = "availability"
+    __tablename__ = "bk_sys_availability"
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
@@ -17,7 +17,6 @@ class Availability(Base):
     day_of_week: Mapped[int] = mapped_column(Integer, nullable=False)
     start_time: Mapped[time] = mapped_column(Time, nullable=False)
     end_time: Mapped[time] = mapped_column(Time, nullable=False)
-    slot_duration: Mapped[int] = mapped_column(Integer, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, server_default=text("NOW()")
     )

@@ -9,7 +9,7 @@ from core.database import Base
 
 
 class Booking(Base):
-    __tablename__ = "bookings"
+    __tablename__ = "bk_sys_bookings"
 
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
