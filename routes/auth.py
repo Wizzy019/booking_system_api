@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from core.database import get_db
-from core.security import admin_only, create_access_token, hash_password, verify_password
+from core.security import admin_only, create_access_token, hash_password, verify_password, get_current_user
 from models.user import User
 from schemas.auth import (
     AdminLoginRequest,
@@ -56,3 +56,13 @@ def register_admin(
     db.commit()
     db.refresh(user)
     return user
+
+@router.get("/me")
+def get_user(current_user: User = Depends(get_current_user)):
+        return {
+        "messagee": "Access granted",
+        "user": {
+            "id" : current_user.id,
+            "email": current_user.email
+        }
+    }
