@@ -63,7 +63,7 @@ def get_user(current_user: User = Depends(get_current_user)):
         "messagee": "Access granted",
         "user": {
             "id" : current_user.id,
-            "email": current_user.email
+            "email": current_user.email,
             "role": current_user.role
         }
     }
