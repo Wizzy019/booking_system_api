@@ -8,11 +8,15 @@ from utils.cleanbasemodel import CleanBaseModel
 class AdminRegisterRequest(CleanBaseModel):
     email: EmailStr
     password: str
-
+    first_name: str
+    last_name: str
+    
 
 class AdminRegisterResponse(BaseModel):
     id: uuid.UUID
     email: str
+    first_name: str
+    last_name: str
     role: str
 
     model_config = {"from_attributes": True}
