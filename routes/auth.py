@@ -74,7 +74,8 @@ def get_user(current_user: User = Depends(get_current_user)):
         "user": {
             "id" : current_user.id,
             "email": current_user.email,
-            "name" : {current_user.first_name, current_user.last_name},
+            "first_name" : current_user.first_name,
+            "last_name": current_user.last_name,
             "role": current_user.role,
             "avater" : current_user.profile_image_path
         }
