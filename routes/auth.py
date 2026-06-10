@@ -5,6 +5,7 @@ from core.database import get_db
 from core.security import admin_only, create_access_token, hash_password, verify_password, get_current_user
 from models.user import User
 from services.avater_service import upload_avater_to_supabase
+from services.avater_service import get_avater_url
 from schemas.auth import (
     AdminLoginRequest,
     AdminLoginResponse,
@@ -96,11 +97,13 @@ async def upload_avatar(
         user_id=str(current_user.id)
     )
 
-    current_user.profile_image_path = path
+    avaterUrl = get_avater_url(path)
+
+    current_user.profile_image_path = avaterUrl
 
     db.commit()
 
     return {
         "message": "Avater Uploaded",
-        "path": path
+        "path": avaterUrl
     }

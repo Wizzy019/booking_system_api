@@ -7,11 +7,7 @@ async def upload_avater_to_supabase(file_bytes: bytes, content_type: str, user_i
     filename = build_avatar_filename(user_id)
     
     url = f"{SUPABASE_URL}/storage/v1/object/bks_avaters/{filename}"
-
-    print("SUPABASE_URL:", SUPABASE_URL)
-    print("SUPABASE_KEY:", SUPABASE_KEY)
-    print("URL:", url)
-
+    
     headers = {
         "Authorization": f"Bearer {SUPABASE_KEY}",
         "Content-Type": content_type,
