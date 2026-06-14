@@ -35,3 +35,7 @@ class AvailabilityResponse(BaseModel):
     end_time: time
 
     model_config = {"from_attributes": True}
+
+class SlotsResponse(BaseModel):
+    available: list[time]
+    booked: list[time]

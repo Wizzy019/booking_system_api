@@ -2,6 +2,7 @@ import uuid
 
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
+from datetime import date, time
 
 from core.database import get_db
 from core.security import admin_only
@@ -9,12 +10,14 @@ from schemas.availability import (
     AvailabilityCreate,
     AvailabilityResponse,
     AvailabilityUpdate,
+    SlotsResponse
 )
 from services.availability_service import (
     create_availability,
     delete_availability,
     get_all_availability,
     update_availability,
+    get_slots,
 )
 
 router = APIRouter(prefix="/availability", tags=["availability"])
@@ -37,6 +40,17 @@ def create_availability_endpoint(
 def get_all_availability_endpoint(db: Session = Depends(get_db)):
     return get_all_availability(db)
     
+
+@router.get("/available-slots/{booking_date}", response_model=SlotsResponse)
+def get_slots_endpoint(
+    booking_date: date,
+    db: Session = Depends(get_db),
+):
+    return get_slots(
+        db,
+        booking_date,
+    )
+
 
 @router.patch("/{id}", response_model=AvailabilityResponse, dependencies=[Depends(admin_only)])
 def update_availability_endpoint(

@@ -14,18 +14,30 @@ def _date_to_day_of_week(booking_date: date) -> int:
     return (booking_date.weekday() + 1) % 7
 
 
+from datetime import date, time, datetime
+from sqlalchemy.orm import Session
+
 def _is_slot_available(
-    db: Session, booking_date: date, time_slot: time
+    db: Session, booking_date: date, time_slot
 ) -> bool:
     day_of_week = _date_to_day_of_week(booking_date)
+
+    if isinstance(time_slot, datetime):
+        time_slot = time_slot.time()
+
+    if hasattr(time_slot, "tzinfo") and time_slot.tzinfo is not None:
+        time_slot = time_slot.replace(tzinfo=None)
+
     records = (
         db.query(Availability)
         .filter(Availability.day_of_week == day_of_week)
         .all()
     )
+
     for record in records:
         if record.start_time <= time_slot < record.end_time:
             return True
+
     return False
 
 
@@ -121,3 +133,4 @@ def delete_booking(db: Session, id: uuid.UUID) -> None:
 
     db.delete(booking)
     db.commit()
+

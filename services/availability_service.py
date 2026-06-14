@@ -1,11 +1,12 @@
 import uuid
-from datetime import time
+from datetime import date, datetime, timedelta, time
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from models.availability import Availability
-from schemas.availability import AvailabilityCreate, AvailabilityUpdate
+from models.booking import Booking
+from schemas.availability import AvailabilityCreate, AvailabilityUpdate, SlotsResponse
 
 
 def _has_time_conflict(
@@ -54,6 +55,128 @@ def get_all_availability(db: Session) -> list[Availability]:
         db.query(Availability)
         .order_by(Availability.day_of_week, Availability.start_time)
         .all()
+    )
+
+def _date_to_day_of_week(booking_date: date) -> int:
+    # Sunday=0, Monday=1, ... Saturday=6
+    return (booking_date.weekday() + 1) % 7
+
+SLOT_DURATION = 90
+
+
+def generate_slots(
+    start_time: time,
+    end_time: time,
+) -> list[time]:
+    slots = []
+
+    current = datetime.combine(
+        datetime.today(),
+        start_time,
+    )
+
+    end = datetime.combine(
+        datetime.today(),
+        end_time,
+    )
+
+    while current + timedelta(
+        minutes=SLOT_DURATION
+    ) <= end:
+        slots.append(current.time())
+        current += timedelta(
+            minutes=SLOT_DURATION
+        )
+
+    return slots
+
+
+# def get_available_slots(db: Session, booking_date: date,) -> SlotResponse:
+#     day_of_week = _date_to_day_of_week(
+#         booking_date
+#     )
+
+#     selected_date = booking_date
+
+#     availability = (
+#         db.query(Availability)
+#         .filter(
+#             Availability.day_of_week
+#             == day_of_week
+#         )
+#         .first()
+#     )
+
+#     if not availability:
+#         return SlotsResponse(
+#         available=[],
+#         booked=[]
+#     )
+
+
+#     generated_slots = generate_slots(
+#         availability.start_time,
+#         availability.end_time,
+#     )
+
+#     bookings = (
+#         db.query(Booking)
+#         .filter(Booking.date == selected_date)
+#         .all()
+#     )
+
+#     booked_times = {
+#         booking.time_slot
+#         for booking in bookings
+#     }
+
+#     available_slots = [
+#         slot
+#         for slot in generated_slots
+#         if slot not in booked_times
+#     ]
+
+#     return SlotsResponse(
+#         available=available_slots,
+#         booked=list(booked_times)
+#     )
+
+def get_slots(db: Session, booking_date: date) -> SlotsResponse:
+    day_of_week = _date_to_day_of_week(booking_date)
+
+    availability = (
+        db.query(Availability)
+        .filter(Availability.day_of_week == day_of_week)
+        .first()
+    )
+
+    if not availability:
+        return SlotsResponse(available=[], booked=[])
+
+    generated_slots = generate_slots(
+        availability.start_time,
+        availability.end_time,
+    )
+
+    bookings = (
+        db.query(Booking)
+        .filter(Booking.date == booking_date)
+        .all()
+    )
+
+    booked_times = {
+        booking.time_slot
+        for booking in bookings
+    }
+
+    available_slots = [
+        slot for slot in generated_slots
+        if slot not in booked_times
+    ]
+
+    return SlotsResponse(
+        available=available_slots,
+        booked=list(booked_times),
     )
 
 

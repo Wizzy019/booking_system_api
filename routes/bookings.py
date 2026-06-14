@@ -35,6 +35,7 @@ def get_all_bookings_endpoint(
 ):
     return get_all_bookings(db)
 
+# 
 
 @router.patch("/{id}", response_model=BookingResponse)
 def update_booking_endpoint(
