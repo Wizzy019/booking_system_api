@@ -23,7 +23,6 @@ class AvailabilityCreate(CleanBaseModel):
 
 
 class AvailabilityUpdate(CleanBaseModel):
-    day_of_week: Optional[int] = None
     start_time: OptionalTime = None
     end_time: OptionalTime = None
 
