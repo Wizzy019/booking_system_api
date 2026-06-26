@@ -14,7 +14,9 @@ from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173"
+        "http://localhost:5173",
+        "http://Wizzy019.github.io",
+        "https://booking-system-app-rho.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
