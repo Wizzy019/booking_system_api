@@ -58,8 +58,7 @@ def get_all_availability(db: Session) -> list[Availability]:
     )
 
 def _date_to_day_of_week(booking_date: date) -> int:
-    # Sunday=0, Monday=1, ... Saturday=6
-    return (booking_date.weekday() + 1) % 7
+    return booking_date.weekday()
 
 SLOT_DURATION = 90
 
